@@ -6,34 +6,39 @@ import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Managed;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import pages.CategoryPage;
-import pages.HomePage;
-import pages.ProductPage;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.addcart.CategoryPage;
+import pages.addcart.HomePage;
+import pages.addcart.ProductPage;
 
 public class AddCartStep {
     private String url = "https://www.plazavea.com.pe/";
+    public WebDriverWait wait;
 
     @Managed(driver = "chrome")
     private WebDriver driver;
 
-    @Given("^that is in the section of (.*)$")
-    public void thatIsInTheSection(String category) {
+    @Given("^that is in the section of Televisores$")
+    public void thatIsInTheSection() {
         driver.get(url);
         HomePage homePage = new HomePage(driver);
+        CategoryPage categoryPage = new CategoryPage(driver);
+        if (homePage.validatePoppup()) {
+            homePage.closePoppup();
+        }
         homePage.selectCategory();
+        categoryPage.selectProduct();
     }
 
-    @When("^adding a product to cart (.*)$")
-    public void addingAProductToCart(String product) {
-        CategoryPage categoryPage = new CategoryPage(driver);
+    @When("^adding a product to cart LG TV LED$")
+    public void addingAProductToCart() {
         ProductPage productPage = new ProductPage(driver);
-        categoryPage.selectProduct();
         productPage.addProduct();
     }
 
     @Then("^confirm that it was added to the cart with message (.*)$")
     public void confirmThatItWasAddedToTheCart(String message) {
         ProductPage productPage = new ProductPage(driver);
-        Assert.assertEquals(productPage.isMessage(),message);
+        Assert.assertEquals(productPage.isMessage(), message);
     }
 }

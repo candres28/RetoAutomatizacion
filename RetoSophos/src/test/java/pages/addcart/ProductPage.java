@@ -1,4 +1,4 @@
-package pages;
+package pages.addcart;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,11 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 
 public class ProductPage {
 
-    @FindBy(how = How.ID,using = "ProductCard__add-to-cart")
-    WebElement product;
-
     @FindBy(how = How.XPATH,using = "//span[text()='El producto se agregó al carrito']")
     WebElement message;
+
+    @FindBy(how = How.ID,using = "ProductCard__add-to-cart")
+    WebElement product;
 
 
     public ProductPage(WebDriver driver) {
